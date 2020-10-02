@@ -187,6 +187,14 @@ function resumePlayer(ev) {
   videoInfoElement.removeEventListener('click', resumePlayer)
 }
 
+function isPlaying(ev) {
+  return playerElement.classList.value.search('playing') >= 0
+}
+
+function togglePlayer(ev) {
+  isPlaying() ? stopPlayer() : resumePlayer()
+}
+
 function stopPlayer(ev, target) {
   const videoInfoThumbElement = document.querySelector('#video-info-thumb')
 
@@ -228,7 +236,7 @@ function openVideoFiles(ev, defaultPath) {
 
   dialog.showOpenDialog(getCurrentWindow(), dialogConfig, (fileNames) => {
     if (fileNames && fileNames.length) {
-      if (fileNames[0].indexOf('torrent') >= 0)
+      if (fileNames[0].includes('torrent'))
         playFromStream(fileNames[0])
       else
         play(fileNames)
@@ -284,6 +292,10 @@ function initListeners() {
 
   // Handle FullScreen
   key('⌘+f', toggleFullScreen)
+
+  // Toggle Player
+  key('ctrl+space', togglePlayer)
+
 }
 
 InitClapton()
